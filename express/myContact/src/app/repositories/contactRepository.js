@@ -40,13 +40,6 @@ class ContactRepository {
     return row;
   }
 
-  delete(id) {
-    return new Promise((resolve, reject) => {
-      const contact = contacts.filter((contactId) => contactId.id !== id);
-      resolve(contact);
-    });
-  }
-
   async create({
     name, email, phone, category_id,
   }) {
@@ -61,24 +54,25 @@ class ContactRepository {
     return row;
   }
 
-  update(id, {
+  async update(id, {
     name, email, phone, category_id,
   }) {
+    const [row] = await db.query(
+      `
+    UPDATE contacts
+    SET name = $1, email = $2, phone = $3, category_id = $4
+    WHERE id = $5
+    RETURNING *
+    `,
+      [name, email, phone, category_id, id],
+    );
+    return row;
+  }
+
+  delete(id) {
     return new Promise((resolve, reject) => {
-      const updatedContent = {
-        id,
-        name,
-        email,
-        phone,
-        category_id,
-      };
-      const contactUpdate = contacts.map((contact) => {
-        if (contact.id === id) {
-          return updatedContent;
-        }
-        return contact;
-      });
-      resolve(contactUpdate);
+      const contact = contacts.filter((contactId) => contactId.id !== id);
+      resolve(contact);
     });
   }
 }
