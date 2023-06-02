@@ -1,10 +1,10 @@
-const contactRepository = require('../repositories/contactRepository');
+const ContactRepository = require('../repositories/ContactRepository');
 
 class ContactController {
   async index(request, response) {
     const { orderBy } = request.query;
     // Listar todos os registros
-    const contacts = await contactRepository.findAll(orderBy);
+    const contacts = await ContactRepository.findAll(orderBy);
     response.json(contacts);
   }
 
@@ -12,7 +12,7 @@ class ContactController {
     // Obter um registro
     const { id } = request.params;
 
-    const contact = await contactRepository.findById(id);
+    const contact = await ContactRepository.findById(id);
     if (!contact) {
       // 404: Not Found
       return response.status(404).json({ error: 'Contact not found' });
@@ -27,7 +27,7 @@ class ContactController {
       name, email, phone, category_id,
     } = request.body;
 
-    const contactExists = await contactRepository.findByEmail(email);
+    const contactExists = await ContactRepository.findByEmail(email);
     if (!name) {
       return response.status(400).json({ error: 'Name is required' });
     }
@@ -37,7 +37,7 @@ class ContactController {
         .json({ error: 'This email is already in use' });
     }
 
-    const contact = await contactRepository.create({
+    const contact = await ContactRepository.create({
       name,
       email,
       phone,
@@ -54,7 +54,7 @@ class ContactController {
       name, email, phone, category_id,
     } = request.body;
 
-    const contactExists = await contactRepository.findById(id);
+    const contactExists = await ContactRepository.findById(id);
     if (!contactExists) {
       return response.status(404).json({ error: 'Contact not found' });
     }
@@ -62,14 +62,14 @@ class ContactController {
       return response.status(400).json({ error: 'Name is required' });
     }
 
-    const contactByEmail = await contactRepository.findByEmail(email);
+    const contactByEmail = await ContactRepository.findByEmail(email);
     if (contactByEmail && contactByEmail.id !== id) {
       return response
         .status(400)
         .json({ error: 'This email is already in use' });
     }
 
-    const contact = await contactRepository.update(id, {
+    const contact = await ContactRepository.update(id, {
       name,
       email,
       phone,
@@ -82,7 +82,7 @@ class ContactController {
     // Remover um registro
     const { id } = request.params;
 
-    await contactRepository.delete(id);
+    await ContactRepository.delete(id);
 
     // 204: No Content
     response.sendStatus(204);
