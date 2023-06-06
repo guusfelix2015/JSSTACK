@@ -12,5 +12,8 @@ router.put('/contacts/:id', ContactController.update);
 
 router.get('/categories', CategoryController.index);
 router.post('/categories', CategoryController.store);
+router.get('/categories/:id', CategoryController.show);
+router.delete('/categories/:id', CategoryController.delete);
+router.put('/categories/:id', CategoryController.update);
 
 module.exports = router;
