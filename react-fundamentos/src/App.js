@@ -24,6 +24,7 @@ function App() {
       likes: 50,
     },
   ]);
+
   function handleRefresh() {
     setPosts((prevState) => [
       ...prevState,
@@ -35,6 +36,10 @@ function App() {
       },
     ]);
   }
+
+  function handleRemovePost(postId) {
+    setPosts((prevState) => prevState.filter((post) => post.id !== postId));
+  }
   return (
     <>
       <Header title="Post da semana">
@@ -44,6 +49,9 @@ function App() {
       <hr />
       {posts.map((post) => (
         <Post
+          onRemove={() => {
+            handleRemovePost(post.id);
+          }}
           key={post.id}
           title={post.title}
           subtitle={post.subtitle}
