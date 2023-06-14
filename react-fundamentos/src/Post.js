@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-export default function Post({ title, subtitle, likes, onRemove }) {
+export default function Post({ title, subtitle, likes, onRemove, read }) {
   return (
     <>
       <article>
-        <h3>{title}</h3>
+        {read ? <s>{title}</s> : <h3>{title}</h3>}
         <button onClick={onRemove}>Remover</button>
         <small>{subtitle}</small>
         <br />
@@ -21,4 +21,5 @@ Post.propTypes = {
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string.isRequired,
   onRemove: PropTypes.func.isRequired,
+  read: PropTypes.bool,
 };

@@ -10,18 +10,21 @@ function App() {
       title: "Título da notícia 01",
       subtitle: "Subtítulo da notícia 01",
       likes: 10,
+      read: false,
     },
     {
       id: Math.random(),
       title: "Título da notícia 02",
       subtitle: "Subtítulo da notícia 02",
       likes: 20,
+      read: true,
     },
     {
       id: Math.random(),
       title: "Título da notícia 03",
       subtitle: "Subtítulo da notícia 03",
       likes: 50,
+      read: false,
     },
   ]);
 
@@ -40,6 +43,7 @@ function App() {
   function handleRemovePost(postId) {
     setPosts((prevState) => prevState.filter((post) => post.id !== postId));
   }
+
   return (
     <>
       <Header title="Post da semana">
@@ -52,6 +56,7 @@ function App() {
           onRemove={() => {
             handleRemovePost(post.id);
           }}
+          read={post.read}
           key={post.id}
           title={post.title}
           subtitle={post.subtitle}
